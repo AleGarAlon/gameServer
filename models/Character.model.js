@@ -52,10 +52,31 @@ const characterSchema = new Schema(
                 default: 0
             },
         },
+        damage: {
+            type: [Number],
+            default: [1,4]
+        },
+        health: {
+            type:Number
+        },
+        power:{
+            type:Number
+        },
         points: {
             type: Number,
             default : 12
-        }
+        },
+        pit: {
+            wins:{
+                type: Number
+            },
+            loses:{
+                type:Number
+            },
+            score: {
+                type:Number
+            }
+        },
     }
 )
 

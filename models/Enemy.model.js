@@ -48,8 +48,18 @@ const enemySchema = new Schema(
                 default: 0
             },
         },
+        damage: {
+            type: [Number],
+            default: [1,4]
+        },
+        health: {
+            type:Number
+        },
         location: {
             type: [String]
+        },
+        locationNumber: {
+            type:Number
         }
     }
 )
