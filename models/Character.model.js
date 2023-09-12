@@ -54,13 +54,15 @@ const characterSchema = new Schema(
         },
         damage: {
             type: [Number],
-            default: [1,4]
+            default: [2,4]
         },
         health: {
-            type:Number
+            type:Number,
+            default : 50
         },
         power:{
-            type:Number
+            type:Number,
+            default:50
         },
         points: {
             type: Number,
@@ -68,13 +70,16 @@ const characterSchema = new Schema(
         },
         pit: {
             wins:{
-                type: Number
+                type: Number,
+                default : 0
             },
             loses:{
-                type:Number
+                type:Number,
+                default : 0
             },
             score: {
-                type:Number
+                type:Number,
+                default : 0
             }
         },
     }

@@ -6,9 +6,9 @@ const Character = require("../models/Character.model")
 const Enemy = require("../models/Enemy.model")
 const Item = require("../models/Item.model")
 const Consumable = require("../models/Consumable.model")
-
-
 const { isAuthenticated } = require('../middlewares/jwt.middleware')
+
+
 router.get('/', (req, res, next) => {
     res.json('All good in auth')
   }) 
@@ -59,6 +59,7 @@ router.get('/verify', isAuthenticated, async(req, res) => {
     console.log('here is after the middleware, what JWT is giving us', req.payload)
     const currentUser = await User.findById(req.payload.userId)  
     .populate("character") 
+    console.log(currentUser)
     currentUser.password = '****'
     res.status(200).json({message: 'Token is valid', currentUser})
   })
