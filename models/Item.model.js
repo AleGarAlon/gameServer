@@ -5,7 +5,7 @@ const ItemSchema = new Schema (
         name: {
             type: String
         },
-        Image: {
+        image: {
             type: String
         },
         price: {
@@ -43,6 +43,9 @@ const ItemSchema = new Schema (
                 default: 0
             },
         },
+        damage: {
+            type: Number
+        }
     }
 )
 
