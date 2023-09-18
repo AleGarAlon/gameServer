@@ -23,6 +23,6 @@ const ConsumableSchema = new Schema (
    } 
 )
 
-const Consumables = model("consumable", ConsumableSchema)
+const Consumable = model("consumable", ConsumableSchema)
 
-module.exports = Consumables
+module.exports = Consumable

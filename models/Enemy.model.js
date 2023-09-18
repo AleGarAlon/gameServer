@@ -14,14 +14,14 @@ const enemySchema = new Schema(
             type: Number
         },
         
-        inventory: {
+        inventory:[ {
             type: Schema.Types.ObjectId,
             ref: "Item"
-        },
-        consumables: {
+        }],
+        consumables: [{
             type: Schema.Types.ObjectId,
             ref: "Consumable"
-        },
+        }],
         attributes: {
             strength:{
                 type: Number,
@@ -49,14 +49,14 @@ const enemySchema = new Schema(
             },
         },
         damage: {
-            type: [Number],
-            default: [1,4]
+            type: Number,
+            
         },
         health: {
             type:Number
         },
         location: {
-            type: [String]
+            type: String
         },
         locationNumber: {
             type:Number

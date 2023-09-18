@@ -53,8 +53,9 @@ const characterSchema = new Schema(
             },
         },
         damage: {
-            type: [Number],
-            default: [2,4]
+            type: Number,
+            default: 1
+            
         },
         health: {
             type:Number,
