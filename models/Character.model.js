@@ -49,7 +49,7 @@ const characterSchema = new Schema(
             },
             armor:{
                 type: Number,
-                default: 0
+                default: 1
             },
         },
         damage: {

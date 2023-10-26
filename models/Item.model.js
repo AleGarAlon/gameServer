@@ -20,23 +20,23 @@ const ItemSchema = new Schema (
         attributes: {
             strength:{
                 type: Number,
-                default: 10
+                default: 0
             },
             dexterity:{
                 type: Number,
-                default: 10
+                default: 0
             },
             agility:{
                 type: Number,
-                default: 10
+                default: 0
             },
             constitution:{
                 type: Number,
-                default: 10
+                default: 0
             },
             fate:{
                 type: Number,
-                default: 10
+                default: 0
             },
             armor:{
                 type: Number,
@@ -44,8 +44,10 @@ const ItemSchema = new Schema (
             },
         },
         damage: {
-            type: Number
+            type: Number,
+            default: 0
         }
+       
     }
 )
 

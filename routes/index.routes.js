@@ -4,6 +4,8 @@ const Item = require("../models/Item.model")
 const Consumable = require("../models/Consumable.model")
 const router = require("express").Router();
 const { isAuthenticated } = require('../middlewares/jwt.middleware')
+const {lvlUp} = require("../controller/Character")
+const {randomConsumables,randomItems} = require("../controller/merchant")
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
@@ -37,13 +39,15 @@ router.get("/character/:id", async (req, res) => {
 
 router.patch("/character/:id", async (req, res) => {
   const characterID = req.params.id
-  const updateCharacterData = req.body
-  console.log("your body on the PATCH is",req.body)
-  // console.log("your params on the PATCH is",req.params)
+  const {updatedAttribute} = req.body
   try {
-    const character = await Character.findByIdAndUpdate(characterID, { $set: { attributes: updateCharacterData.attributes, gold: updateCharacterData.gold  } }, { new: true })
-    console.log(character)
-    res.status(200).json(character)
+  // let  character = await Character.findById(characterID)
+  //   character.gold = character.gold - character.attributes[updatedAttribute] * 5
+  //   character.attributes[updatedAttribute] = character.attributes[updatedAttribute] + 1
+  //   let updatedCharacter = await Character.findByIdAndUpdate(characterID,character, { new: true })
+  const sendCharacter = await lvlUp(characterID,updatedAttribute)
+  
+    res.status(200).json(sendCharacter)
   } catch (error) {
     console.log(error)
     res.status(500).json("something goes wrong in the character PATCH")
@@ -52,7 +56,7 @@ router.patch("/character/:id", async (req, res) => {
 
 router.get("/shop", async(req,res) => {
   try {
-    const consumables = await Consumable.find()
+    const consumables = await randomConsumables()
     res.status(200).json(consumables)
   } catch (error) {
     console.log(error)
@@ -62,8 +66,9 @@ router.get("/shop", async(req,res) => {
 
 router.get("/armory", async (req,res) =>{
   try {
-    const items = await Item.find();
-  res.status(200).jsom(items)
+    const items = await randomItems()
+    console.log("YOUR FINAL ITEMS BEFORE SEND TO FRONT", items)
+  res.status(200).json(items)
   } catch (error) {
     console.log(error)
     res.status(500).json("soething goes wrong in the items GET")
