@@ -6,7 +6,7 @@ const Consumable = require("../models/Consumable.model")
 const lvlUp = async (characterID,updatedAttribute) => {
     
 try {
-    let  character = await Character.findById(characterID)
+    let character = await Character.findById(characterID)
     character.gold = character.gold - character.attributes[updatedAttribute] * 5
     character.attributes[updatedAttribute] = character.attributes[updatedAttribute] + 1
     let lvlCharacter = await Character.findByIdAndUpdate(characterID,character, { new: true })
@@ -106,8 +106,47 @@ const enemyTurn = (character,enemy,combat2)=> {
 }
 
 const exploreCombat = async(characterID, location) => {
-    let  character = await Character.findById(characterID)
-    
+    let character = await Character.findById(characterID)
+    let enemy = await Enemy.findOne({location : location})
+    let combat1 = []
+    let combat2= []
+    let victory = ""
+    const whosTurn = Math.random();
+         
+        if (whosTurn % 2 !== 0){
+            combat1.push(`${character.name} attack first`)
+        while (character.health > 0 && enemy.health > 0) {
+            characterTurn(character,enemy,combat1);
+            
+            if (enemy.health <= 0) {
+                victory =`${character.name} wins`
+                break
+            }
+            enemyTurn(character,enemy,combat2);
+            
+            if (character.health <= 0){
+                victory=`${enemy.name} wins`
+                break
+            }
+        }
+        }
+        if(whosTurn % 2 === 0) {
+            combat2.push(`${enemy.name} attack first`)
+            while (character.health > 0 && enemy.health > 0) {
+                enemyTurn(character,enemy,combat2);
+                
+                if (character.health <= 0){
+                    victory=`${enemy.name} wins`
+                    break
+                }
+                characterTurn(character,enemy,combat1);
+                
+                if (enemy.health <= 0) {
+                    victory=`${character.name} wins`
+                    break
+                }
+            }  
+        }
 }
 
 module.exports = {
