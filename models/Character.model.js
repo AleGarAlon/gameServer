@@ -14,18 +14,18 @@ const characterSchema = new Schema(
             type: Number,
             default : 0
         },
-        gear: {
+        gear: [{
             type: Schema.Types.ObjectId,
             ref: "Item"
-        },
-        inventory: {
+        }],
+        inventory: [{
             type: Schema.Types.ObjectId,
             ref: "Item"
-        },
-        consumables: {
+        }],
+        consumables: [{
             type: Schema.Types.ObjectId,
             ref: "Consumable"
-        },
+        }],
         attributes: {
             strength:{
                 type: Number,
@@ -49,17 +49,17 @@ const characterSchema = new Schema(
             },
             armor:{
                 type: Number,
-                default: 1
+                default: 0
             },
         },
         damage: {
             type: Number,
-            default: 1
+            default: 5
             
         },
         health: {
             type:Number,
-            default : 50
+            default : 100
         },
         power:{
             type:Number,

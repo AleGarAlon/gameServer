@@ -4,12 +4,28 @@ const Item = require("../models/Item.model")
 const Consumable = require("../models/Consumable.model")
 const router = require("express").Router();
 const { isAuthenticated } = require('../middlewares/jwt.middleware')
-const {lvlUp} = require("../controller/Character")
+const {lvlUp, exploreCombat} = require("../controller/Character")
 const {randomConsumables,randomItems} = require("../controller/merchant")
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
+
+
+router.get("/explore/combat", async (req,res) => {
+  const id = req.query.id;
+  const location = req.query.location;
+  
+  try {
+    console.log("GOING INTO THE TRY EXPLORE COMBAT")
+    const exploreCombatResult = await exploreCombat(id,location)
+    console.log("Your combat results are", exploreCombatResult)
+    res.status(200).json(exploreCombatResult)
+  } catch (error) {
+    console.log("Your error in combat is", error);
+    res.status(500).json({ error: "An error occurred in combat." });
+  }
+})
 
 router.get("/explore/:location", async (req, res)=> {
     const {location} = req.params
@@ -23,7 +39,6 @@ router.get("/explore/:location", async (req, res)=> {
       res.status(500).json(error)
     }
 })
-
 router.get("/character/:id", async (req, res) => {
   // console.log("Your params on the character GEt are",req.params)
   const {id} = req.params

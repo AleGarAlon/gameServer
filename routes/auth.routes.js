@@ -7,6 +7,7 @@ const Enemy = require("../models/Enemy.model")
 const Item = require("../models/Item.model")
 const Consumable = require("../models/Consumable.model")
 const { isAuthenticated } = require('../middlewares/jwt.middleware')
+const {gearSum} = require("../controller/Character.js")
 
 
 router.get('/', (req, res, next) => {
@@ -57,12 +58,16 @@ router.post("/login", async (req , res)  => {
 
 router.get('/verify', isAuthenticated, async(req, res) => {
     console.log('here is after the middleware, what JWT is giving us', req.payload)
-    const currentUser = await User.findById(req.payload.userId)  
-    .populate("character") 
+    const currentUser = await User.findById(req.payload.userId)
+    .populate("character")
+    if(currentUser.character){
+    characterWithGear = await gearSum(currentUser.character._id)
+    console.log("Your geared character is", characterWithGear)
+    currentUser.character = characterWithGear
     console.log(currentUser)
     currentUser.password = '****'
     res.status(200).json({message: 'Token is valid', currentUser})
+}
   })
-
 
 module.exports = router;
