@@ -44,7 +44,6 @@ try {
 }
 }
 
-
 const reverseGearSum = async (character) => {
     console.log(character)
 
@@ -57,94 +56,136 @@ const reverseGearSum = async (character) => {
         character.attributes.armor -= item.attributes.armor
         character.damage -= item.damage
     })
-
     const naked = await Character.findByIdAndUpdate(character._id, character)
     return naked
-    
-
 } 
 
+// const hitMod = Math.log(1 + Math.abs(dex - agi))
+// let hitChance = 0
+
+// console.log(hitMod)
+
+// if( dex - agi >= 0){
+//   hitChance =  0.5 + hitMod * 0.1
+//   console.log("hitCHance on dex", hitChance)
+//   const randomHitNumber = Math.random()
+//   console.log(randomHitNumber)
+//   if(hitChance >= randomHitNumber) {
+//     console.log("You attack landed")
+//   } else {
+//     console.log("The enemy has evaded de attack")
+//   }
+// }else {
+//   hitChance= 0.5 - hitMod * 0.1
+//   console.log("hitCHance on agi", hitChance)
+//   const randomHitNumber = Math.random()
+//   console.log(randomHitNumber)
+//   if(hitChance >= randomHitNumber) {
+//     console.log("You attack landed")
+//   } else {
+//     console.log("The enemy has evaded de attack")
+//   }
+// }
+
 const characterTurn = async (character,enemy,combat1) => {
-    const randomDex1 = parseInt(Math.random() * 100);
-    const randomAgi1 = parseInt(Math.random() * 100);
-    const randomFate1 = parseInt(Math.random() * 100);
-    //player turn
-            //Random C.dex vs random E.agi to deternine if the atack land
-            if (randomDex1 + character.attributes.dexterity > randomAgi1 + enemy.attributes.agility) {
-                //if land, determine if the fate attribute triggers 
-                //fate triggers = ignore armor
-                if (character.attributes.fate>= randomFate1) {
-                    //determine the damage, playerdamage + str atribute
-                    const charDmg = Math.round((character.damage * (1.1 **character.attributes.strength)) - enemy.attributes.armor);
-                    enemy.health -= charDmg
-                    
-                    console.log("Enemy health post atack", enemy.health)
-                    let combat1Result = `${enemy.name} recived a piercing strike of ${charDmg}` 
-                    console.log(combat1Result)
-                    combat1.push(combat1Result) 
-                    console.log("Your combat1 is", combat1)
+    const hitMod = Math.log(1 + Math.abs(character.attributes.dexterity - enemy.attributes.agility))
+    let hitChance = 0
+        if (character.attributes.dexterity - enemy.attributes.agility >= 0) {
+            hitChance = 0.5 + hitMod * 0.1
+            const randomHitNumber = Math.random()
+            if(hitChance >= randomHitNumber) {
+                
+                let charDmg = Math.round((character.damage * (1.1 **character.attributes.strength)) - ((enemy.attributes.armor/2 ) * ((1.1** enemy.attributes.constitution))));
+                if (charDmg < character.damage){
+                    charDmg = character.damage
                 }
-                //non fate attack
-                else {
-                    const charDmg = Math.round((character.damage * (1.1 **character.attributes.strength)) - (enemy.attributes.armor / 5 * (1.1** enemy.attributes.constitution)))
-                    // console.log("Enemy health pre atack", enemy.health)
-                    enemy.health -= charDmg
-                    console.log("Enemy health post atack", enemy.health)
-                    let combat1Result = `${enemy.name} recived a strike of ${charDmg}` 
-                    console.log(combat1Result)
-                    combat1.push(combat1Result)
-                    console.log("Your combat1 is", combat1)
-                }
-                }
-                else {
+                enemy.health -= charDmg
+                console.log("Enemy health post atack", enemy.health)
+                let combat1Result = `${enemy.name} recived a piercing strike of ${charDmg}` 
+                console.log(combat1Result)
+                combat1.push(combat1Result) 
+                console.log("Your combat1 is", combat1)
+            }
+            else {
                 let combat1Result = `${enemy.name} evades the attack`
                 console.log(combat1Result)
                 combat1.push(combat1Result)
                 console.log("Your combat1 is", combat1)
-                
             }
+        }
+        else {
+            hitChance = 0.5 - hitMod * 0.1
+            const randomHitNumber = Math.random()
+            if(hitChance >= randomHitNumber) {
+                
+                let charDmg = Math.round((character.damage * (1.1 **character.attributes.strength)) - ((enemy.attributes.armor/2) * ((1.1** enemy.attributes.constitution)) ));
+                if (charDmg < character.damage){
+                    charDmg = character.damage
+                }
+                enemy.health -= charDmg
+                console.log("Enemy health post atack", enemy.health)
+                let combat1Result = `${enemy.name} recived a piercing strike of ${charDmg}` 
+                console.log(combat1Result)
+                combat1.push(combat1Result) 
+                console.log("Your combat1 is", combat1)
+            }
+            else {
+                let combat1Result = `${enemy.name} evades the attack`
+                console.log(combat1Result)
+                combat1.push(combat1Result)
+                console.log("Your combat1 is", combat1)
+            }
+        }
             
 
 }
 
 const enemyTurn = (character,enemy,combat2)=> {
-    const randomDex2 = parseInt(Math.random() * 100);
-    const randomAgi2 = parseInt(Math.random() * 100);
-    const randomFate2 = parseInt(Math.random() * 100);
-    //enemy turn
-    //Random E.dex vs random C.agi to deternine if the atack land
-    if (randomDex2 + enemy .attributes.dexterity > randomAgi2 + character.attributes.agility) {
-        //if land, determine if the fate attribute triggers 
-        //fate triggers = ignore armor
-        if (enemy.attributes.fate>= randomFate2) {
-            //determine the damage, enemydamage + str atribute
-            const eneDmg = Math.round(enemy.damage * (1.1 ** enemy.attributes.strength));
-            // console.log("Character health pre attack", character.health)
-            // console.log(newHealth)
-            console.log("Character health post attack", character.health)
-            character.health -= eneDmg
-            let combat2Result = `${character.name} recived a piercing strike of ${eneDmg}`
-                console.log(combat2Result)
-                combat2.push(combat2Result)
-                console.log("Your combat2 is", combat2)
+    const hitMod = Math.log(1 + Math.abs(enemy .attributes.dexterity - character.attributes.agility))
+    let hitChance = 0
+        if (enemy .attributes.dexterity - character.attributes.agility) {
+            hitChance = 0.5 + hitMod * 0.1
+            const randomHitNumber = Math.random()
+                if (hitChance >= randomHitNumber) {
+                    let eneDmg = Math.round((enemy.damage * (1.1 **enemy.attributes.strength)) - ((character.attributes.armor/2 )* ((1.1** character.attributes.constitution))));  ;
+                    if (eneDmg < enemy.damage){
+                        eneDmg = enemy.damage
+                    }
+                    character.health -= eneDmg
+                    let combat2Result = `${character.name} recived a piercing strike of ${eneDmg}`
+                    console.log(combat2Result)
+                    combat2.push(combat2Result)
+                    console.log("Your combat2 is", combat2)
+                }
+                else {
+                    let combat2Result =`${character.name} evades the attack`
+                    console.log(combat2Result)
+                    combat2.push(combat2Result)
+                    console.log("Your combat2 is", combat2)
+                }
         }
-         //non fate attack
         else {
-            const eneDmg = Math.round((enemy.damage * (1.1 ** enemy.attributes.strength))) - character.attributes.armor
-            character.health -= eneDmg
-            console.log("Character health post attack", character.health)
-            let combat2Result =`${character.name} recived a strike of ${eneDmg}`
-            console.log(combat2Result)
-            combat2.push(combat2Result)
-            console.log("Your combat2 is", combat2)
+            hitChance = 0.5 - hitMod * 0.1
+            const randomHitNumber = Math.random()
+                if (hitChance >= randomHitNumber) {
+                    let eneDmg = Math.round((enemy.damage * (1.1 **enemy.attributes.strength)) - ((character.attributes.armor/2 )* ((1.1** character.attributes.constitution)) ));
+                    if (eneDmg < enemy.damage){
+                        eneDmg = enemy.damage
+                    }
+                    console.log("Character health post attack", character.health)
+                    character.health -= eneDmg
+                    let combat2Result = `${character.name} recived a piercing strike of ${eneDmg}`
+                    console.log(combat2Result)
+                    combat2.push(combat2Result)
+                    console.log("Your combat2 is", combat2)
+                }
+                else {
+                    let combat2Result =`${character.name} evades the attack`
+                    console.log(combat2Result)
+                    combat2.push(combat2Result)
+                    console.log("Your combat2 is", combat2)
+                }
         }
-    }// if the attack failed on the dex vs agi
-    else {
-        let combat2Result =`${character.name} evades the attack`
-        console.log(combat2Result)
-        combat2.push(combat2Result)
-        console.log("Your combat2 is", combat2)
-    }
     
 }
 
