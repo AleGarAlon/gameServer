@@ -94,11 +94,34 @@ const unequipItem = async (characterId, itemId) => {
 
 }
 
+const useConsumable = async (characterId, consumableId) => {
+    const character = await Character.findById(characterId)
+    .populate("consumables")
+    console.log(character.consumables)
+    console.log(consumableId)
+    const usedConsumable = character.consumables.find(consumable => consumable.id === consumableId)
+    const usedConsumableIndex = character.consumables.findIndex(consumable => consumable.id === consumableId)
+    console.log(usedConsumable)
+    if (usedConsumable.effect === "heal") {
+        character.health += usedConsumable.amount
+        if(character.health > 100){
+            character.health=100
+        }
+    } else {
+        character.attributes[usedConsumable.effect] += usedConsumable.amount
+    }
+    character.consumables.splice(usedConsumableIndex,1)
+    await Character.findByIdAndUpdate(characterId, character)
+    const gearedCharacter = gearSum(characterId)
+    return gearedCharacter
+}
+
 module.exports = {
     lvlUp,
     gearSum,
     reverseGearSum,
     unequipItem,
     equipItem,
+    useConsumable,
 
 }

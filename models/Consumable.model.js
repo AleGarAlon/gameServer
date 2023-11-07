@@ -18,7 +18,13 @@ const ConsumableSchema = new Schema (
         type: String
     },
     effect: {
+        type:String
+    },
+    amount: {
         type:Number
+    },
+    description: {
+        type:String
     }
    } 
 )

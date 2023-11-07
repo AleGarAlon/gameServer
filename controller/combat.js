@@ -10,9 +10,9 @@ const characterTurn = async (character,enemy,combat1) => {
             const randomHitNumber = Math.random()
             if(hitChance >= randomHitNumber) {
                 
-                let charDmg = Math.round((character.damage * (1.1 **character.attributes.strength)) - ((enemy.attributes.armor/2 ) * ((1.1** enemy.attributes.constitution))));
-                if (charDmg < character.damage){
-                    charDmg = character.damage
+                let charDmg = Math.round((character.damage * (0.1 * character.attributes.strength)) - ((enemy.attributes.armor/5) * (0.1 * enemy.attributes.constitution)));
+                if (charDmg <= 0){
+                    charDmg = 1
                 }
                 enemy.health -= charDmg
                 console.log("Enemy health post atack", enemy.health)
@@ -33,9 +33,9 @@ const characterTurn = async (character,enemy,combat1) => {
             const randomHitNumber = Math.random()
             if(hitChance >= randomHitNumber) {
                 
-                let charDmg = Math.round((character.damage * (1.1 **character.attributes.strength)) - ((enemy.attributes.armor/2) * ((1.1** enemy.attributes.constitution)) ));
-                if (charDmg < character.damage){
-                    charDmg = character.damage
+                let charDmg = Math.round((character.damage * (0.1 * character.attributes.strength)) - ((enemy.attributes.armor/5) * (0.1 * enemy.attributes.constitution)));
+                if (charDmg <= 0){
+                    charDmg = 1
                 }
                 enemy.health -= charDmg
                 console.log("Enemy health post atack", enemy.health)
@@ -62,9 +62,9 @@ const enemyTurn = (character,enemy,combat2)=> {
             hitChance = 0.5 + hitMod * 0.1
             const randomHitNumber = Math.random()
                 if (hitChance >= randomHitNumber) {
-                    let eneDmg = Math.round((enemy.damage * (1.1 **enemy.attributes.strength)) - ((character.attributes.armor/2 )* ((1.1** character.attributes.constitution))));  ;
-                    if (eneDmg < enemy.damage){
-                        eneDmg = enemy.damage
+                    let eneDmg = Math.round((enemy.damage * (0.1 * enemy.attributes.strength)) - ((character.attributes.armor/5) * (0.1 * character.attributes.constitution)));  ;
+                    if (eneDmg <= 0){
+                        eneDmg = 1
                     }
                     character.health -= eneDmg
                     let combat2Result = `${character.name} recived a piercing strike of ${eneDmg}`
@@ -83,9 +83,9 @@ const enemyTurn = (character,enemy,combat2)=> {
             hitChance = 0.5 - hitMod * 0.1
             const randomHitNumber = Math.random()
                 if (hitChance >= randomHitNumber) {
-                    let eneDmg = Math.round((enemy.damage * (1.1 **enemy.attributes.strength)) - ((character.attributes.armor/2 )* ((1.1** character.attributes.constitution)) ));
-                    if (eneDmg < enemy.damage){
-                        eneDmg = enemy.damage
+                    let eneDmg = Math.round((enemy.damage * (0.1 * enemy.attributes.strength)) - ((character.attributes.armor/5) * (0.1 * character.attributes.constitution)));
+                    if (eneDmg <= 0){
+                        eneDmg = 1
                     }
                     console.log("Character health post attack", character.health)
                     character.health -= eneDmg
