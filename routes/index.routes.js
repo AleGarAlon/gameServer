@@ -4,7 +4,8 @@ const Item = require("../models/Item.model")
 const Consumable = require("../models/Consumable.model")
 const router = require("express").Router();
 const { isAuthenticated } = require('../middlewares/jwt.middleware')
-const {lvlUp, exploreCombat} = require("../controller/Character")
+const {lvlUp,unequipItem,equipItem} = require("../controller/Character")
+const {exploreCombat} = require("../controller/combat")
 const {randomConsumables,randomItems} = require("../controller/merchant")
 
 
@@ -79,11 +80,35 @@ router.get("/armory", async (req,res) =>{
   res.status(200).json(items)
   } catch (error) {
     console.log(error)
-    res.status(500).json("soething goes wrong in the items GET")
+    res.status(500).json("Something goes wrong in the armory GET route")
   }
   
 })
- 
+// This route handle the equip of an item in the "character screen" 
+router.get ("/equip", async (req,res) => {
+  const characterId = req.query.characterId;
+  const itemId = req.query.itemId;
+  try {
+    equipedItemCharacter = await equipItem(characterId,itemId)
+    res.status(200).json(equipedItemCharacter)  
+} catch (error) {
+  console.log(error)
+  res.status(500).json("Something goes wrong in the equip GET route")
+}
+})
+// This route handle the unequip of an item in the "character screen" 
+router.get ("/unequip", async (req,res) => {
+  const characterId = req.query.characterId;
+  const itemId = req.query.itemId;
+  try {
+    unequipedItemCharacter = await unequipItem(characterId,itemId)
+    res.status(200).json(unequipedItemCharacter) 
+  } catch (error) {
+    console.log(error)
+    res.status(500).json("Something goes wrong in the unequip GET route")
+  }
+})
+
 router.get('/verify', isAuthenticated, async(req, res) => {
   console.log('here is after the middleware, what JWT is giving us', req.payload)
   const currentUser = await User.findById(req.payload.userId)  
