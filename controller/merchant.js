@@ -1,7 +1,7 @@
 const Item = require("../models/Item.model");
 const Consumable = require("../models/Consumable.model");
 const Character = require("../models/Character.model");
-const { gearSum } = require("./Character");
+const { gearSum } = require("./player");
 
 const shuffleArray = (array) => {
   const shuffled = [...array];

@@ -7,7 +7,7 @@ const Enemy = require("../models/Enemy.model");
 const Item = require("../models/Item.model");
 const Consumable = require("../models/Consumable.model");
 const { isAuthenticated } = require("../middlewares/jwt.middleware");
-const { gearSum } = require("../controller/Character.js");
+const { gearSum } = require("../controller/player.js");
 
 router.get("/", (req, res, next) => {
   res.json("All good in auth");

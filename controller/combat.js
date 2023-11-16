@@ -1,6 +1,6 @@
 const Enemy = require("../models/Enemy.model");
 const Character = require("../models/Character.model");
-const { gearSum, reverseGearSum } = require("./Character");
+const { gearSum, reverseGearSum } = require("./player");
 
 const characterTurn = async (character, enemy, combat1) => {
   const hitMod = Math.log(

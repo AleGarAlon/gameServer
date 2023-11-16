@@ -9,7 +9,7 @@ const {
   unequipItem,
   equipItem,
   useConsumable,
-} = require("../controller/Character");
+} = require("../controller/player");
 const { exploreCombat } = require("../controller/combat");
 const {
   randomConsumables,
