@@ -3,6 +3,9 @@ const { Schema, model } = require("mongoose");
 const characterSchema = new Schema({
   name: {
     type: String,
+    required: true,
+    unique: true,
+    trim: true,
   },
   image: {
     type: String,
@@ -12,7 +15,7 @@ const characterSchema = new Schema({
 
   gold: {
     type: Number,
-    default: 0,
+    default: 200,
   },
   gear: [
     {
