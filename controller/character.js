@@ -15,6 +15,14 @@ const gearSum = async (id) => {
       gearedCharacter.attributes.fate += item.attributes.fate;
       gearedCharacter.attributes.armor += item.attributes.armor;
       gearedCharacter.damage += item.damage;
+      gearedCharacter.power =
+        gearedCharacter.attributes.strength +
+        gearedCharacter.attributes.dexterity +
+        gearedCharacter.attributes.agility +
+        gearedCharacter.attributes.constitution +
+        gearedCharacter.attributes.fate +
+        gearedCharacter.attributes.armor / 10 +
+        gearedCharacter.damage * 2;
     });
 
     return gearedCharacter;
