@@ -20,7 +20,7 @@ const characterTurn = async (character, enemy, combat1) => {
       }
       enemy.health -= charDmg;
       console.log("Enemy health post atack", enemy.health);
-      let combat1Result = `${enemy.name} recived ${charDmg} damage`;
+      let combat1Result = `${enemy.name} received ${charDmg} damage`;
       console.log(combat1Result);
       combat1.push(combat1Result);
       console.log("Your combat1 is", combat1);
@@ -43,7 +43,7 @@ const characterTurn = async (character, enemy, combat1) => {
       }
       enemy.health -= charDmg;
       console.log("Enemy health post atack", enemy.health);
-      let combat1Result = `${enemy.name} recived ${charDmg} damage`;
+      let combat1Result = `${enemy.name} received ${charDmg} damage`;
       console.log(combat1Result);
       combat1.push(combat1Result);
       console.log("Your combat1 is", combat1);
@@ -74,7 +74,7 @@ const enemyTurn = (character, enemy, combat2) => {
         eneDmg = 1;
       }
       character.health -= eneDmg;
-      let combat2Result = `${character.name} recived ${eneDmg} damage`;
+      let combat2Result = `${character.name} received ${eneDmg} damage`;
       console.log(combat2Result);
       combat2.push(combat2Result);
       console.log("Your combat2 is", combat2);
@@ -98,7 +98,7 @@ const enemyTurn = (character, enemy, combat2) => {
       }
       console.log("Character health post attack", character.health);
       character.health -= eneDmg;
-      let combat2Result = `${character.name} recived ${eneDmg} damage`;
+      let combat2Result = `${character.name} received ${eneDmg} damage`;
       console.log(combat2Result);
       combat2.push(combat2Result);
       console.log("Your combat2 is", combat2);
