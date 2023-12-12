@@ -30,10 +30,10 @@ const lvlUp = async (characterID, updatedAttribute) => {
 
     character.gold = Math.round(
       character.gold -
-        character.attributes[updatedAttribute] **
+        (character.attributes[updatedAttribute] **
           (character.attributes[updatedAttribute] * 0.16) +
-        character.attributes[updatedAttribute] *
-          character.attributes[updatedAttribute]
+          character.attributes[updatedAttribute] *
+            character.attributes[updatedAttribute])
     );
     character.attributes[updatedAttribute] =
       character.attributes[updatedAttribute] + 1;
