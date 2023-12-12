@@ -1,4 +1,6 @@
 const Character = require("../models/Character.model");
+const Item = require("../models/Item.model");
+const Consumable = require("../models/Consumable.model");
 
 const gearSum = async (id) => {
   try {
@@ -26,8 +28,13 @@ const lvlUp = async (characterID, updatedAttribute) => {
   try {
     let character = await Character.findById(characterID);
 
-    character.gold =
-      character.gold - character.attributes[updatedAttribute] * 5;
+    character.gold = Math.round(
+      character.gold -
+        character.attributes[updatedAttribute] **
+          (character.attributes[updatedAttribute] * 0.16) +
+        character.attributes[updatedAttribute] *
+          character.attributes[updatedAttribute]
+    );
     character.attributes[updatedAttribute] =
       character.attributes[updatedAttribute] + 1;
     const lvlCharacter = await Character.findByIdAndUpdate(
@@ -122,6 +129,20 @@ const useConsumable = async (characterId, consumableId) => {
   return gearedCharacter;
 };
 
+const initialGear = async (characterId) => {
+  const shieldId = "653adb5c690af601c7d82130";
+  const weaponId = "6537c49f84e1685de5c7cd3c";
+  const potionId = "654a381cfd62ac0ef8069059";
+  const newCharacter = await Character.findById(characterId);
+  const shield = await Item.findById(shieldId);
+  const weapon = await Item.findById(weaponId);
+  const potion = await Consumable.findById(potionId);
+  newCharacter.gear.push(weapon);
+  newCharacter.inventory.push(shield);
+  newCharacter.consumables.push(potion);
+  return newCharacter;
+};
+
 module.exports = {
   lvlUp,
   gearSum,
@@ -129,4 +150,5 @@ module.exports = {
   unequipItem,
   equipItem,
   useConsumable,
+  initialGear,
 };

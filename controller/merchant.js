@@ -13,7 +13,7 @@ const shuffleArray = (array) => {
 };
 
 const randomConsumables = async () => {
-  let consumables = await Consumable.find();
+  let consumables = await Consumable.find({ rarity: "common" });
   consumables = shuffleArray(consumables);
   let shopConsumables = consumables.slice(0, 4);
   return shopConsumables;
@@ -56,7 +56,7 @@ const sellConsumable = async (characterId, consumableId) => {
 };
 
 const randomItems = async () => {
-  let items = await Item.find();
+  let items = await Item.find({ rarity: "common" });
   items = shuffleArray(items);
   let shopItems = items.slice(0, 4);
   return shopItems;

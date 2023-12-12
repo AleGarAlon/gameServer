@@ -10,12 +10,12 @@ const characterSchema = new Schema({
   image: {
     type: String,
     default:
-      "https://res.cloudinary.com/dvml0gelc/image/upload/v1691593037/Zen_z7ulvc.png",
+      "https://res.cloudinary.com/dvml0gelc/image/upload/v1695039396/game/character%20portraits/m_13_hqseg6.png",
   },
 
   gold: {
     type: Number,
-    default: 200,
+    default: 500,
   },
   gear: [
     {
@@ -63,7 +63,7 @@ const characterSchema = new Schema({
   },
   damage: {
     type: Number,
-    default: 5,
+    default: 1,
   },
   health: {
     type: Number,

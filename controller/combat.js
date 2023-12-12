@@ -126,6 +126,27 @@ const randomLocation = () => {
   }
   return locNum;
 };
+
+const itemLoot = async (character, enemy) => {
+  const chance = Math.random() * 100;
+
+  if (chance >= 30 && chance <= 55) {
+    lootedItem = enemy.inventory[0];
+    character.inventory.push(lootedItem);
+  } else if (chance > 55 && chance <= 75) {
+    lootedItem = enemy.inventory[1];
+    character.inventory.push(lootedItem);
+  } else if (chance > 75 && chance <= 90) {
+    lootedItem = enemy.inventory[2];
+    character.inventory.push(lootedItem);
+  } else if (chance > 90 && chance <= 100) {
+    lootedItem = enemy.inventory[3];
+    character.inventory.push(lootedItem);
+  }
+
+  return character;
+};
+
 const exploreCombat = async (characterID, location) => {
   randomLoc = randomLocation();
   let character = await gearSum(characterID);
@@ -147,6 +168,7 @@ const exploreCombat = async (characterID, location) => {
       if (enemy.health <= 0) {
         enemy.health = 0;
         character.gold += enemy.gold;
+        character = await itemLoot(character, enemy);
         await reverseGearSum(character);
         character = await gearSum(characterID);
         victory = `${character.name} wins`;
@@ -180,6 +202,7 @@ const exploreCombat = async (characterID, location) => {
       if (enemy.health <= 0) {
         enemy.health = 0;
         character.gold += enemy.gold;
+        character = await itemLoot(character, enemy);
         await reverseGearSum(character);
         character = await gearSum(characterID);
         victory = `${character.name} wins`;

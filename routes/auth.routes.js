@@ -8,6 +8,7 @@ const Item = require("../models/Item.model");
 const Consumable = require("../models/Consumable.model");
 const { isAuthenticated } = require("../middlewares/jwt.middleware");
 const { gearSum } = require("../controller/player.js");
+const { initialGear } = require("../controller/player");
 
 router.get("/", (req, res, next) => {
   res.json("All good in auth");
@@ -19,13 +20,14 @@ router.post("/signup", async (req, res) => {
   const passwordHash = bcrypt.hashSync(payload.password, salt);
   try {
     const newCharacter = await Character.create({ name: payload.name });
-    newCharacter.gear.push("653adb5c690af601c7d82130");
-    newCharacter.inventory.push("6537c49f84e1685de5c7cd3c");
-    newCharacter.consumables.push("654a381cfd62ac0ef8069059");
+    const newGearedCharacter = await initialGear(newCharacter._id);
+    await Character.findByIdAndUpdate(newCharacter._id, newGearedCharacter, {
+      new: true,
+    });
     await User.create({
       name: payload.name,
       password: passwordHash,
-      character: newCharacter,
+      character: newGearedCharacter,
     });
     res.status(201).json({ message: "User created" });
   } catch (error) {
