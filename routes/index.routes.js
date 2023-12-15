@@ -18,6 +18,7 @@ const {
   buyConsumable,
   sellItem,
   buyItem,
+  sellAll,
 } = require("../controller/merchant");
 
 //This route handle the combat petition in the "explore screem"
@@ -148,6 +149,7 @@ router.get("/shop/sell", async (req, res) => {
     res.status(500).json("Something goes wrong in the shop/buy GET route");
   }
 });
+
 //This route handle the random armory imtes in the "armory screen"
 router.get("/armory", async (req, res) => {
   try {
@@ -178,6 +180,17 @@ router.get("/armory/sell", async (req, res) => {
   try {
     const sellItemCharacter = await sellItem(characterId, itemId);
     res.status(200).json(sellItemCharacter);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something goes wrong in the armory/buy GET route");
+  }
+});
+router.get("/armory/sellAll", async (req, res) => {
+  const characterId = req.query.characterId;
+
+  try {
+    const sellAllItems = await sellAll(characterId);
+    res.status(200).json(sellAllItems);
   } catch (error) {
     console.log(error);
     res.status(500).json("Something goes wrong in the armory/buy GET route");

@@ -95,6 +95,22 @@ const sellItem = async (characterId, itemId) => {
     console.log(error);
   }
 };
+
+const sellAll = async (characterId) => {
+  try {
+    const character =
+      await Character.findById(characterId).populate("inventory");
+    character.inventory.forEach((item) => {
+      character.gold += Math.round(item.price / 4);
+    });
+    character.inventory = [];
+    await Character.findByIdAndUpdate(characterId, character);
+    const gearedCharacter = await gearSum(character._id);
+    return gearedCharacter;
+  } catch (error) {
+    console.log(error);
+  }
+};
 module.exports = {
   randomConsumables,
   randomItems,
@@ -102,4 +118,5 @@ module.exports = {
   sellConsumable,
   buyItem,
   sellItem,
+  sellAll,
 };
