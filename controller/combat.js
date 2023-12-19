@@ -12,8 +12,9 @@ const characterTurn = async (character, enemy, combat1) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
-        character.damage * 1.1 ** character.attributes.strength -
-          enemy.attributes.armor * 1.1 ** enemy.attributes.constitution * 0.1
+        (character.damage * 1.1 ** character.attributes.strength -
+          enemy.attributes.armor * 1.1 ** enemy.attributes.constitution * 0.1) *
+          0.1
       );
       if (charDmg <= 0) {
         charDmg = 1;
@@ -35,8 +36,9 @@ const characterTurn = async (character, enemy, combat1) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
-        character.damage * 1.1 ** character.attributes.strength -
-          enemy.attributes.armor * 1.1 ** enemy.attributes.constitution * 0.1
+        (character.damage * 1.1 ** character.attributes.strength -
+          enemy.attributes.armor * 1.1 ** enemy.attributes.constitution * 0.1) *
+          0.1
       );
       if (charDmg <= 0) {
         charDmg = 1;
@@ -66,10 +68,11 @@ const enemyTurn = (character, enemy, combat2) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let eneDmg = Math.round(
-        enemy.damage * 1.1 ** enemy.attributes.strength -
+        (enemy.damage * 1.1 ** enemy.attributes.strength -
           character.attributes.armor *
             1.1 ** character.attributes.constitution *
-            0.1
+            0.1) *
+          0.1
       );
       if (eneDmg <= 0) {
         eneDmg = 1;
@@ -90,10 +93,11 @@ const enemyTurn = (character, enemy, combat2) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let eneDmg = Math.round(
-        enemy.damage * 1.1 ** enemy.attributes.strength -
+        (enemy.damage * 1.1 ** enemy.attributes.strength -
           character.attributes.armor *
             1.1 ** character.attributes.constitution *
-            0.1
+            0.1) *
+          0.1
       );
       if (eneDmg <= 0) {
         eneDmg = 1;
