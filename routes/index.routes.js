@@ -19,6 +19,7 @@ const {
   sellItem,
   buyItem,
   sellAll,
+  buyConsumableX5,
 } = require("../controller/merchant");
 
 //This route handle the combat petition in the "explore screem"
@@ -125,6 +126,20 @@ router.get("/shop/buy", async (req, res) => {
   const consumableId = req.query.consumableId;
   try {
     const buyConsumableCharacter = await buyConsumable(
+      characterId,
+      consumableId
+    );
+    res.status(200).json(buyConsumableCharacter);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json("Something goes wrong in the shop/buy GET route");
+  }
+});
+router.get("/shop/buyX5", async (req, res) => {
+  const characterId = req.query.characterId;
+  const consumableId = req.query.consumableId;
+  try {
+    const buyConsumableCharacter = await buyConsumableX5(
       characterId,
       consumableId
     );

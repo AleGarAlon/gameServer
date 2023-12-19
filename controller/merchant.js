@@ -34,6 +34,25 @@ const buyConsumable = async (characterId, consumableId) => {
   }
 };
 
+const buyConsumableX5 = async (characterId, consumableId) => {
+  try {
+    const character = await Character.findById(characterId);
+    const buyedConsumable = await Consumable.findById(consumableId);
+    const goldCost = buyedConsumable.price;
+    character.gold -= goldCost * 5;
+    character.consumables.push(buyedConsumable);
+    character.consumables.push(buyedConsumable);
+    character.consumables.push(buyedConsumable);
+    character.consumables.push(buyedConsumable);
+    character.consumables.push(buyedConsumable);
+    await Character.findByIdAndUpdate(characterId, character);
+    const gearedCharacter = await gearSum(character._id);
+    return gearedCharacter;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const sellConsumable = async (characterId, consumableId) => {
   try {
     const character =
@@ -119,4 +138,5 @@ module.exports = {
   buyItem,
   sellItem,
   sellAll,
+  buyConsumableX5,
 };
