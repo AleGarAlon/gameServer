@@ -13,7 +13,9 @@ const characterTurn = async (character, enemy, combat1) => {
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
         (character.damage * 1.1 ** character.attributes.strength -
-          enemy.attributes.armor * 1.1 ** enemy.attributes.constitution * 0.1) *
+          enemy.attributes.armor *
+            1.05 ** enemy.attributes.constitution *
+            0.1) *
           0.1
       );
       if (charDmg <= 0) {
@@ -37,7 +39,9 @@ const characterTurn = async (character, enemy, combat1) => {
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
         (character.damage * 1.1 ** character.attributes.strength -
-          enemy.attributes.armor * 1.1 ** enemy.attributes.constitution * 0.1) *
+          enemy.attributes.armor *
+            1.05 ** enemy.attributes.constitution *
+            0.1) *
           0.1
       );
       if (charDmg <= 0) {
@@ -70,7 +74,7 @@ const enemyTurn = (character, enemy, combat2) => {
       let eneDmg = Math.round(
         (enemy.damage * 1.1 ** enemy.attributes.strength -
           character.attributes.armor *
-            1.1 ** character.attributes.constitution *
+            1.05 ** character.attributes.constitution *
             0.1) *
           0.1
       );
@@ -95,7 +99,7 @@ const enemyTurn = (character, enemy, combat2) => {
       let eneDmg = Math.round(
         (enemy.damage * 1.1 ** enemy.attributes.strength -
           character.attributes.armor *
-            1.1 ** character.attributes.constitution *
+            1.05 ** character.attributes.constitution *
             0.1) *
           0.1
       );
