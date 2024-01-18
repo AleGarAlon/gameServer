@@ -2,6 +2,7 @@ const Enemy = require("../models/Enemy.model");
 const Character = require("../models/Character.model");
 const { gearSum, reverseGearSum } = require("./player");
 
+//The user character turn in a combat
 const characterTurn = async (character, enemy, combat1) => {
   const hitMod = Math.log(
     1 + Math.abs(character.attributes.dexterity - enemy.attributes.agility)
@@ -22,16 +23,11 @@ const characterTurn = async (character, enemy, combat1) => {
         charDmg = 1;
       }
       enemy.health -= charDmg;
-      console.log("Enemy health post atack", enemy.health);
       let combat1Result = `${enemy.name} received ${charDmg} damage`;
-      console.log(combat1Result);
       combat1.push(combat1Result);
-      console.log("Your combat1 is", combat1);
     } else {
       let combat1Result = `${enemy.name} evades the attack`;
-      console.log(combat1Result);
       combat1.push(combat1Result);
-      console.log("Your combat1 is", combat1);
     }
   } else {
     hitChance = 0.5 - hitMod * 0.1;
@@ -48,20 +44,16 @@ const characterTurn = async (character, enemy, combat1) => {
         charDmg = 1;
       }
       enemy.health -= charDmg;
-      console.log("Enemy health post atack", enemy.health);
       let combat1Result = `${enemy.name} received ${charDmg} damage`;
-      console.log(combat1Result);
       combat1.push(combat1Result);
-      console.log("Your combat1 is", combat1);
     } else {
       let combat1Result = `${enemy.name} evades the attack`;
-      console.log(combat1Result);
       combat1.push(combat1Result);
-      console.log("Your combat1 is", combat1);
     }
   }
 };
 
+//Enemy turn in a combat
 const enemyTurn = (character, enemy, combat2) => {
   const hitMod = Math.log(
     1 + Math.abs(enemy.attributes.dexterity - character.attributes.agility)
@@ -83,14 +75,10 @@ const enemyTurn = (character, enemy, combat2) => {
       }
       character.health -= eneDmg;
       let combat2Result = `${character.name} received ${eneDmg} damage`;
-      console.log(combat2Result);
       combat2.push(combat2Result);
-      console.log("Your combat2 is", combat2);
     } else {
       let combat2Result = `${character.name} evades the attack`;
-      console.log(combat2Result);
       combat2.push(combat2Result);
-      console.log("Your combat2 is", combat2);
     }
   } else {
     hitChance = 0.5 - hitMod * 0.1;
@@ -106,25 +94,19 @@ const enemyTurn = (character, enemy, combat2) => {
       if (eneDmg <= 0) {
         eneDmg = 1;
       }
-      console.log("Character health post attack", character.health);
       character.health -= eneDmg;
       let combat2Result = `${character.name} received ${eneDmg} damage`;
-      console.log(combat2Result);
       combat2.push(combat2Result);
-      console.log("Your combat2 is", combat2);
     } else {
       let combat2Result = `${character.name} evades the attack`;
-      console.log(combat2Result);
       combat2.push(combat2Result);
-      console.log("Your combat2 is", combat2);
     }
   }
 };
-
+//give a 1 of the 4 random enemies that populates each zone
 const randomLocation = () => {
   let locNum = Math.floor(Math.random() * 20) + 1;
 
-  console.log("???????????????????????????????????", locNum);
   if (locNum >= 1 && locNum <= 9) {
     locNum = 1;
   } else if (locNum >= 10 && locNum <= 16) {
@@ -137,6 +119,7 @@ const randomLocation = () => {
   return locNum;
 };
 
+//chose randomly 1 of the loot items in the enemy inventory(in defeated)
 const itemLoot = async (character, enemy) => {
   const chance = Math.random() * 100;
 
@@ -156,7 +139,7 @@ const itemLoot = async (character, enemy) => {
 
   return character;
 };
-
+//find an enemy in the chosen location and then execute the combat dinamic
 const exploreCombat = async (characterID, location) => {
   randomLoc = randomLocation();
   let character = await gearSum(characterID);
@@ -168,8 +151,7 @@ const exploreCombat = async (characterID, location) => {
   let combat2 = [];
   let victory = "";
   const whosTurn = Math.floor(Math.random() * 100) + 1;
-  console.log("Your turn number is", whosTurn);
-
+  //randomly assign who will attack first and triggers the end of the combat
   if (whosTurn % 2 !== 0) {
     combat1.push(`${character.name} attack first`);
     while (character.health > 0 && enemy.health > 0) {
