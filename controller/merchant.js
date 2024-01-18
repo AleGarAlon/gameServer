@@ -3,6 +3,7 @@ const Consumable = require("../models/Consumable.model");
 const Character = require("../models/Character.model");
 const { gearSum } = require("./player");
 
+//randomize and array
 const shuffleArray = (array) => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -12,13 +13,14 @@ const shuffleArray = (array) => {
   return shuffled;
 };
 
+//pick 4 random consumables from the DB for the shop
 const randomConsumables = async () => {
   let consumables = await Consumable.find({ rarity: "common" });
   consumables = shuffleArray(consumables);
   let shopConsumables = consumables.slice(0, 4);
   return shopConsumables;
 };
-
+//buy a consumable from the shop
 const buyConsumable = async (characterId, consumableId) => {
   try {
     const character = await Character.findById(characterId);
@@ -33,7 +35,7 @@ const buyConsumable = async (characterId, consumableId) => {
     console.log(error);
   }
 };
-
+//buy a consumable x5 from the shop
 const buyConsumableX5 = async (characterId, consumableId) => {
   try {
     const character = await Character.findById(characterId);
@@ -52,7 +54,7 @@ const buyConsumableX5 = async (characterId, consumableId) => {
     console.log(error);
   }
 };
-
+//sell a consumable from the character inventory in the shop page
 const sellConsumable = async (characterId, consumableId) => {
   try {
     const character =
@@ -73,14 +75,14 @@ const sellConsumable = async (characterId, consumableId) => {
     console.log(error);
   }
 };
-
+//get 4 random items from the database
 const randomItems = async () => {
   let items = await Item.find({ rarity: "common" });
   items = shuffleArray(items);
   let shopItems = items.slice(0, 4);
   return shopItems;
 };
-
+//buy an item in the blacksmith page
 const buyItem = async (characterId, itemId) => {
   try {
     const character = await Character.findById(characterId);
@@ -95,7 +97,7 @@ const buyItem = async (characterId, itemId) => {
     console.log(error);
   }
 };
-
+//sell an item from the character inventory in the blacksmith page
 const sellItem = async (characterId, itemId) => {
   try {
     const character =
@@ -114,7 +116,7 @@ const sellItem = async (characterId, itemId) => {
     console.log(error);
   }
 };
-
+//sell all the items from the character invantory in the blacksmith page
 const sellAll = async (characterId) => {
   try {
     const character =

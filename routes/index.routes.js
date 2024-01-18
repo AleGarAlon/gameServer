@@ -28,33 +28,18 @@ router.get("/explore/combat", async (req, res) => {
   const location = req.query.location;
   try {
     const exploreCombatResult = await exploreCombat(id, location);
-    console.log("Your combat results are", exploreCombatResult);
     res.status(200).json(exploreCombatResult);
   } catch (error) {
     console.log("Your error in combat is", error);
     res.status(500).json({ error: "An error occurred in combat." });
   }
 });
-//This route handle the search of an enemy in a selected location. Actually not in use
-// router.get("/explore/:location", async (req, res)=> {
-//     const {location} = req.params
-//     console.log("Your location on the Get explore",location)
-//     try {
-//       const enemy = await Enemy.findOne({location : location})
-//       console.log("Your enemy on the Get explore",enemy)
-//       res.status(200).json(enemy)
-//     } catch (error) {
-//       console.log(error)
-//       res.status(500).json(error)
-//     }
-// })
+
 //This route get and ungeared character to show the base stats in the "train screen"
 router.get("/character/:id", async (req, res) => {
-  // console.log("Your params on the character GEt are",req.params)
   const { id } = req.params;
   try {
     const character = await Character.findById(id);
-    // console.log("Your character on the character GEt are",character)
     res.status(200).json(character);
   } catch (error) {
     console.log(error);
@@ -67,7 +52,6 @@ router.patch("/character/:id", async (req, res) => {
   const { updatedAttribute } = req.body;
   try {
     const sendCharacter = await lvlUp(characterID, updatedAttribute);
-
     res.status(200).json(sendCharacter);
   } catch (error) {
     console.log(error);
@@ -188,7 +172,7 @@ router.get("/armory/buy", async (req, res) => {
     res.status(500).json("Something goes wrong in the armory/buy GET route");
   }
 });
-//This route handle the consumable SELL in the armory screen
+//This route handle the item SELL in the armory screen
 router.get("/armory/sell", async (req, res) => {
   const characterId = req.query.characterId;
   const itemId = req.query.itemId;
@@ -200,9 +184,9 @@ router.get("/armory/sell", async (req, res) => {
     res.status(500).json("Something goes wrong in the armory/buy GET route");
   }
 });
+//This route handle the SELL all items in the armory screen
 router.get("/armory/sellAll", async (req, res) => {
   const characterId = req.query.characterId;
-
   try {
     const sellAllItems = await sellAll(characterId);
     res.status(200).json(sellAllItems);
@@ -210,18 +194,6 @@ router.get("/armory/sellAll", async (req, res) => {
     console.log(error);
     res.status(500).json("Something goes wrong in the armory/buy GET route");
   }
-});
-router.get("/verify", isAuthenticated, async (req, res) => {
-  console.log(
-    "here is after the middleware, what JWT is giving us",
-    req.payload
-  );
-  const currentUser = await User.findById(req.payload.userId).populate(
-    "character"
-  );
-  console.log(currentUser);
-  currentUser.password = "****";
-  res.status(200).json({ message: "Token is valid", currentUser });
 });
 
 module.exports = router;

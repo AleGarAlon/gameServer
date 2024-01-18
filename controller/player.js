@@ -2,6 +2,7 @@ const Character = require("../models/Character.model");
 const Item = require("../models/Item.model");
 const Consumable = require("../models/Consumable.model");
 
+//add all the atributes and famage from the gear to the character stats
 const gearSum = async (id) => {
   try {
     const gearedCharacter = await Character.findById(id)
@@ -24,10 +25,11 @@ const gearSum = async (id) => {
     console.log(error);
   }
 };
+
+//add +1 to the selected stat
 const lvlUp = async (characterID, updatedAttribute) => {
   try {
     let character = await Character.findById(characterID);
-
     character.gold = Math.round(
       character.gold -
         (character.attributes[updatedAttribute] **
@@ -38,15 +40,13 @@ const lvlUp = async (characterID, updatedAttribute) => {
     character.attributes[updatedAttribute] =
       character.attributes[updatedAttribute] + 1;
     await Character.findByIdAndUpdate(characterID, character, { new: true });
-
     const gearedLeveledCharacter = await gearSum(characterID);
-
     return gearedLeveledCharacter;
   } catch (error) {
     console.log(error);
   }
 };
-
+//return the character to the base stats(without gear)
 const reverseGearSum = async (character) => {
   console.log(character);
 
@@ -62,12 +62,11 @@ const reverseGearSum = async (character) => {
   const naked = await Character.findByIdAndUpdate(character._id, character);
   return naked;
 };
-
+//equip an item from the inventory
 const equipItem = async (characterId, itemId) => {
   const character = await Character.findById(characterId)
     .populate("gear")
     .populate("inventory");
-
   const equippedItem = character.inventory.find((item) => item.id === itemId);
   const equippedItemIndex = character.inventory.findIndex(
     (item) => item.id === itemId
@@ -88,7 +87,7 @@ const equipItem = async (characterId, itemId) => {
   const gearedCharacter = await gearSum(character._id);
   return gearedCharacter;
 };
-
+//Unequip an item from the gear and send to the inventory
 const unequipItem = async (characterId, itemId) => {
   const character = await Character.findById(characterId);
   const itemIndex = character.gear.indexOf(itemId);
@@ -98,19 +97,16 @@ const unequipItem = async (characterId, itemId) => {
   const gearedCharacter = await gearSum(character._id);
   return gearedCharacter;
 };
-
+//use a consumable as gain the effect
 const useConsumable = async (characterId, consumableId) => {
   const character =
     await Character.findById(characterId).populate("consumables");
-  console.log(character.consumables);
-  console.log(consumableId);
   const usedConsumable = character.consumables.find(
     (consumable) => consumable.id === consumableId
   );
   const usedConsumableIndex = character.consumables.findIndex(
     (consumable) => consumable.id === consumableId
   );
-  console.log(usedConsumable);
   if (usedConsumable.effect === "heal") {
     character.health += usedConsumable.amount;
     if (character.health > 100) {
@@ -124,7 +120,7 @@ const useConsumable = async (characterId, consumableId) => {
   const gearedCharacter = gearSum(characterId);
   return gearedCharacter;
 };
-
+//set the initial gear that will be assign to a new player
 const initialGear = async (characterId) => {
   const shieldId = "653adb5c690af601c7d82130";
   const weaponId = "6537c49f84e1685de5c7cd3c";
