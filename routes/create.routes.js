@@ -22,7 +22,6 @@ router.post("/enemy", async (req, res) => {
     consumables: [],
     inventory: [],
   };
-  console.log(parsedBody);
   try {
     const newEnemy = await Enemy.create(parsedBody);
     res.status(201).json(newEnemy);

@@ -38,7 +38,6 @@ router.post("/signup", async (req, res) => {
 
 router.post("/login", async (req, res) => {
   const payload = req.body;
-
   try {
     const logginUser = await User.findOne({ name: payload.name });
     if (logginUser) {
