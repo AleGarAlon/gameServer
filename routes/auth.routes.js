@@ -19,17 +19,23 @@ router.post("/signup", async (req, res) => {
   const salt = bcrypt.genSaltSync(13);
   const passwordHash = bcrypt.hashSync(payload.password, salt);
   try {
-    const newCharacter = await Character.create({ name: payload.name });
-    const newGearedCharacter = await initialGear(newCharacter._id);
-    await Character.findByIdAndUpdate(newCharacter._id, newGearedCharacter, {
-      new: true,
-    });
-    await User.create({
-      name: payload.name,
-      password: passwordHash,
-      character: newGearedCharacter,
-    });
-    res.status(201).json({ message: "User created" });
+    const userExist = await Character.find({ name: payload.name });
+    console.log(userExist);
+    if (userExist.length > 0) {
+      res.status(409).json({ message: "Name already in use" });
+    } else {
+      const newCharacter = await Character.create({ name: payload.name });
+      const newGearedCharacter = await initialGear(newCharacter._id);
+      await Character.findByIdAndUpdate(newCharacter._id, newGearedCharacter, {
+        new: true,
+      });
+      await User.create({
+        name: payload.name,
+        password: passwordHash,
+        character: newGearedCharacter,
+      });
+      res.status(201).json({ message: "User created" });
+    }
   } catch (error) {
     console.log(error);
     res.status(500).json(error);
@@ -58,6 +64,8 @@ router.post("/login", async (req, res) => {
       } else {
         res.status(403).json({ errorMessage: "Invalid User/Password" });
       }
+    } else {
+      res.status(403).json({ errorMessage: "Invalid User/Password" });
     }
   } catch (error) {
     console.log(error);
