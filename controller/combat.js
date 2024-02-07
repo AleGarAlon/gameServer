@@ -1,6 +1,8 @@
 const Enemy = require("../models/Enemy.model");
 const Character = require("../models/Character.model");
 const { gearSum, reverseGearSum } = require("./player");
+const { shuffleArray } = require("./merchant");
+const Consumable = require("../models/Consumable.model");
 
 //The user character turn in a combat
 const characterTurn = async (character, enemy, combat1) => {
@@ -135,6 +137,12 @@ const itemLoot = async (character, enemy) => {
   } else if (chance > 90 && chance <= 100) {
     lootedItem = enemy.inventory[3];
     character.inventory.push(lootedItem);
+  } else {
+    allFoodConsumables = await Consumable.find({ type: "food" });
+
+    const lootedConsumable = shuffleArray(allFoodConsumables);
+    console.log(lootedConsumable);
+    character.consumables.push(lootedConsumable[0]);
   }
 
   return character;

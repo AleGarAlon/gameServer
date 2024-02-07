@@ -133,6 +133,7 @@ const sellAll = async (characterId) => {
   }
 };
 module.exports = {
+  shuffleArray,
   randomConsumables,
   randomItems,
   buyConsumable,
