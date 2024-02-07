@@ -14,7 +14,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 
 const FRONTEND_URL =
-  "http://localhost:5173" || "https://glittering-croissant-459f10.netlify.app";
+  "https://glittering-croissant-459f10.netlify.app" || "http://localhost:5173";
 
 // Middleware configuration
 module.exports = (app) => {
