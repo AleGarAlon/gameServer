@@ -15,11 +15,9 @@ const characterTurn = async (character, enemy, combat1) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
-        (character.damage * 1.1 ** character.attributes.strength -
-          enemy.attributes.armor *
-            1.05 ** enemy.attributes.constitution *
-            0.1) *
-          0.1
+        (character.damage * 0.1 * character.attributes.strength -
+          enemy.attributes.armor * enemy.attributes.constitution * 0.01) *
+          (Math.random() + 2)
       );
       if (charDmg <= 0) {
         charDmg = 1;
@@ -36,11 +34,9 @@ const characterTurn = async (character, enemy, combat1) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
-        (character.damage * 1.1 ** character.attributes.strength -
-          enemy.attributes.armor *
-            1.05 ** enemy.attributes.constitution *
-            0.1) *
-          0.1
+        (character.damage * 0.1 * character.attributes.strength -
+          enemy.attributes.armor * enemy.attributes.constitution * 0.01) *
+          (Math.random() + 2)
       );
       if (charDmg <= 0) {
         charDmg = 1;
@@ -66,11 +62,11 @@ const enemyTurn = (character, enemy, combat2) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let eneDmg = Math.round(
-        (enemy.damage * 1.1 ** enemy.attributes.strength -
+        (enemy.damage * 0.1 * enemy.attributes.strength -
           character.attributes.armor *
-            1.05 ** character.attributes.constitution *
-            0.1) *
-          0.1
+            0.01 *
+            character.attributes.constitution) *
+          (Math.random() + 2)
       );
       if (eneDmg <= 0) {
         eneDmg = 1;
@@ -87,11 +83,11 @@ const enemyTurn = (character, enemy, combat2) => {
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let eneDmg = Math.round(
-        (enemy.damage * 1.1 ** enemy.attributes.strength -
+        (enemy.damage * 0.1 * enemy.attributes.strength -
           character.attributes.armor *
-            1.05 ** character.attributes.constitution *
-            0.1) *
-          0.1
+            0.01 *
+            character.attributes.constitution) *
+          (Math.random() + 2)
       );
       if (eneDmg <= 0) {
         eneDmg = 1;
@@ -147,14 +143,20 @@ const itemLoot = async (character, enemy) => {
 
   return character;
 };
+
+const searchEnemies = async (location) => {
+  try {
+    const enemies = await Enemy.find({ location: location });
+    return enemies;
+  } catch (error) {
+    console.log(error);
+  }
+};
 //find an enemy in the chosen location and then execute the combat dinamic
-const exploreCombat = async (characterID, location) => {
-  randomLoc = randomLocation();
+const exploreCombat = async (characterID, enemyId) => {
+  console.log(characterID, enemyId, "<-----------");
   let character = await gearSum(characterID);
-  let enemy = await Enemy.findOne({
-    location: location,
-    locationNumber: randomLoc,
-  });
+  let enemy = await Enemy.findById(enemyId);
   let combat1 = [];
   let combat2 = [];
   let victory = "";
@@ -215,4 +217,5 @@ const exploreCombat = async (characterID, location) => {
 
 module.exports = {
   exploreCombat,
+  searchEnemies,
 };

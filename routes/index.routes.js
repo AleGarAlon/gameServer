@@ -10,7 +10,7 @@ const {
   equipItem,
   useConsumable,
 } = require("../controller/player");
-const { exploreCombat } = require("../controller/combat");
+const { exploreCombat, searchEnemies } = require("../controller/combat");
 const {
   randomConsumables,
   randomItems,
@@ -22,19 +22,28 @@ const {
   buyConsumableX5,
 } = require("../controller/merchant");
 
-//This route handle the combat petition in the "explore screem"
-router.get("/explore/combat", async (req, res) => {
-  const id = req.query.id;
+router.get("/explore/zone", async (req, res) => {
   const location = req.query.location;
   try {
-    const exploreCombatResult = await exploreCombat(id, location);
+    const locationEnemies = await searchEnemies(location);
+    res.status(200).json(locationEnemies);
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+//This route handle the combat petition in the "enemy card"
+router.get("/explore/combat", async (req, res) => {
+  const characterId = req.query.id;
+  const enemyId = req.query.enemyId;
+  try {
+    const exploreCombatResult = await exploreCombat(characterId, enemyId);
     res.status(200).json(exploreCombatResult);
   } catch (error) {
     console.log("Your error in combat is", error);
     res.status(500).json({ error: "An error occurred in combat." });
   }
 });
-
 //This route get and ungeared character to show the base stats in the "train screen"
 router.get("/character/:id", async (req, res) => {
   const { id } = req.params;
