@@ -71,7 +71,7 @@ const characterSchema = new Schema({
   },
   power: {
     type: Number,
-    default: 50,
+    default: 0,
   },
   points: {
     type: Number,

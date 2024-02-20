@@ -46,6 +46,10 @@ const ItemSchema = new Schema({
     type: Number,
     default: 0,
   },
+  power: {
+    type: Number,
+    default: 0,
+  },
 });
 
 const Item = model("Item", ItemSchema);

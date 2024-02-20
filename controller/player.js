@@ -18,6 +18,8 @@ const gearSum = async (id) => {
       gearedCharacter.attributes.fate += item.attributes.fate;
       gearedCharacter.attributes.armor += item.attributes.armor;
       gearedCharacter.damage += item.damage;
+      gearedCharacter.power += item.power;
+      console.log(gearedCharacter);
     });
 
     return gearedCharacter;
@@ -39,6 +41,7 @@ const lvlUp = async (characterID, updatedAttribute) => {
     );
     character.attributes[updatedAttribute] =
       character.attributes[updatedAttribute] + 1;
+    character.power = character.power + 1;
     await Character.findByIdAndUpdate(characterID, character, { new: true });
     const gearedLeveledCharacter = await gearSum(characterID);
     return gearedLeveledCharacter;
@@ -58,6 +61,7 @@ const reverseGearSum = async (character) => {
     character.attributes.fate -= item.attributes.fate;
     character.attributes.armor -= item.attributes.armor;
     character.damage -= item.damage;
+    character.power -= item.power;
   });
   const naked = await Character.findByIdAndUpdate(character._id, character);
   return naked;

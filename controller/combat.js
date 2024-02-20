@@ -12,6 +12,7 @@ const characterTurn = async (character, enemy, combat1) => {
   let hitChance = 0;
   if (character.attributes.dexterity - enemy.attributes.agility >= 0) {
     hitChance = 0.5 + hitMod * 0.1;
+    console.log(hitChance);
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
@@ -31,6 +32,7 @@ const characterTurn = async (character, enemy, combat1) => {
     }
   } else {
     hitChance = 0.5 - hitMod * 0.1;
+    console.log(hitChance);
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let charDmg = Math.round(
@@ -59,6 +61,7 @@ const enemyTurn = (character, enemy, combat2) => {
   let hitChance = 0;
   if (enemy.attributes.dexterity - character.attributes.agility) {
     hitChance = 0.5 + hitMod * 0.1;
+    console.log(hitChance);
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let eneDmg = Math.round(
@@ -80,6 +83,7 @@ const enemyTurn = (character, enemy, combat2) => {
     }
   } else {
     hitChance = 0.5 - hitMod * 0.1;
+    console.log(hitChance);
     const randomHitNumber = Math.random();
     if (hitChance >= randomHitNumber) {
       let eneDmg = Math.round(
@@ -134,10 +138,10 @@ const itemLoot = async (character, enemy) => {
     lootedItem = enemy.inventory[3];
     character.inventory.push(lootedItem);
   } else {
-    allFoodConsumables = await Consumable.find({ type: "food" });
+    const allFoodConsumables = await Consumable.find({ type: "food" });
 
     const lootedConsumable = shuffleArray(allFoodConsumables);
-    console.log(lootedConsumable);
+
     character.consumables.push(lootedConsumable[0]);
   }
 
@@ -154,7 +158,6 @@ const searchEnemies = async (location) => {
 };
 //find an enemy in the chosen location and then execute the combat dinamic
 const exploreCombat = async (characterID, enemyId) => {
-  console.log(characterID, enemyId, "<-----------");
   let character = await gearSum(characterID);
   let enemy = await Enemy.findById(enemyId);
   let combat1 = [];

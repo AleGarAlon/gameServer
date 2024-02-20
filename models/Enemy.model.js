@@ -58,6 +58,10 @@ const enemySchema = new Schema({
   health: {
     type: Number,
   },
+  power: {
+    type: Number,
+    default: 0,
+  },
   location: {
     type: String,
   },
