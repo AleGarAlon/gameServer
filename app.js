@@ -4,7 +4,7 @@ require("dotenv").config();
 
 // ℹ️ Connects to the database
 require("./db");
-
+console.log("TOKEN_SECRET:", process.env.TOKEN_SECRET);
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const express = require("express");
