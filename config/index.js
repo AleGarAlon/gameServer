@@ -20,16 +20,22 @@ module.exports = (app) => {
   // Because this is a server that will accept requests from outside and it will be hosted ona server with a `proxy`, express needs to know that it should trust that setting.
   app.set("trust proxy", 1);
 
+  app.use(cors({
+  origin: "*",  // Permitir cualquier origen
+  credentials: true,
+}));
+
   // controls a very specific header to pass headers from the frontend
-  app.use(
+ /* app.use(
     cors({
       origin: [FRONTEND_URL],
       credentials: true,
       methods: ["GET", "POST", "PUT", "DELETE"],
       allowedHeaders: ["Content-Type", "Authorization"],
     })
-  );
+  );*/
 
+  
   // In development environment the app logs
   app.use(logger("dev"));
 
