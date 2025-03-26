@@ -8,5 +8,5 @@ app.listen(PORT, () => {
 });
 
 console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
-console.log("MONGO_URI:", process.env.MONGO_URI);
+console.log("MONGODB_URI:", process.env.MONGO_URI);
 console.log("TOKEN_SECRET:", process.env.TOKEN_SECRET);
