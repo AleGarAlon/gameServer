@@ -7,6 +7,4 @@ app.listen(PORT, () => {
   console.log(`Server listening on http://localhost:${PORT}`);
 });
 
-console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
-console.log("MONGODB_URI:", process.env.MONGO_URI);
-console.log("TOKEN_SECRET:", process.env.TOKEN_SECRET);
+
